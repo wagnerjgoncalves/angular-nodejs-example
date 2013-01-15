@@ -1,19 +1,15 @@
 extends layout
 
 block body
-  div(ng-controller='AppCtrl')
-    h2 Hello {{name}}
-    ul.menu
+  div
+    h2 My Blog
+    ul
       li
-        a(href='view1') view1
+        a(href='/') Home
       li
-        a(href='view2') view2
-
+        a(href='/addPost') Add a new post
+        
     div(ng-view)
-
-    div
-      | Angular seed app: v
-      span(app-version)
 
   script(src='js/lib/angular/angular.js')
   script(src='js/app.js')

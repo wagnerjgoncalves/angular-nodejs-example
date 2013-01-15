@@ -1,70 +1,89 @@
-/*
- * Serve JSON to our AngularJS client
- */
 
-var data = {
-  "posts": [
-    {
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    },
-    {
-      "title": "Sed egestas",
-      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus."
-    }
-  ]
-};
+// CouchDb configuration and setup
+var cradle = require('cradle'),
+    config = require('../config/db')['development']; 
 
+var conn = new(cradle.Connection)(config.url, config.port, {
+  cache: true,
+  raw: false
+});
 
-// GET
+var db = conn.database(config.database);
+db.exists(function (err, exists) {
+  if (err) {
+    console.log('Error try verify if database exists', err);
+  } else if (exists) {
+    console.log('Database already exists');
+  } else {
+    console.log('Database does not exists and will be created');
+    db.create();
+  }
+});
+
+// LIST
 exports.posts = function(req,res){
   var posts = [];
-  data.posts.forEach(function(post,i){
-    posts.push({
-      id:i,
-      title: post.title,
-      text: post.text.substr(0,50)+ '...'
+  db.view('posts/all', function(err , results){
+    results.forEach(function(id,post){
+      posts.push({
+        id:id,
+        title: post.title,
+        text: post.text
+      });
     });
-  });
-  res.json({
-    posts:posts
+    res.json({
+      posts:posts
+    });
   });
 };
 
+// GET BY ID
 exports.post = function(req,res){
   var id = req.params.id;
-  if(id >= 0){
-    res.json({
-      post: data.posts[id]
-    });
-  }else{
-    res.json(false);
-  }
+  db.get(id, function(err, doc){
+    if(err){
+      res.json(false);  
+    }else{
+      res.json({
+        post: doc
+      });
+    }
+  });
 };
 
+
+// NEW POST
 exports.addPost = function(req,res){
-  data.posts.push(req.body);
-  res.json(req.body);
+  var post = req.body;
+  post.resource = 'Post';
+  db.save(post, function (err, ret) {
+    if (err) {
+      res.json(false);
+    }
+    res.json(post);
+  });
 };
 
-// PUT 
+// EDIT POST
 exports.editPost = function(req, res){
   var id = req.params.id;
-  if(id >= 0){
-    data.posts[id] = req.body;
-    res.json(true);
-  }else{
-    res.json(false);
-  }
+  var post = req.body;
+  post.resource = 'Post';
+  db.merge(id, post, function(err,result){
+    if(err)
+      res.json(false);
+    else
+      res.json(true);
+  });
 };
 
-// DELETE
+// DELETE POST
 exports.deletePost = function(req, res){
   var id = req.params.id;
-  if(id >= 0){
-    data.posts.splice(id,1);
-    res.json(true);
-  }else{
-    res.json(false);
-  }
+  db.remove(id, function(err,result){
+    if(err)
+      res.json(false);  
+    else
+      res.json(true);
+  });
 };

@@ -26,17 +26,17 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+var post = new api.Post();
+
 // Routes
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
-// JSON API
-app.get('/api/posts', api.posts);
-
-app.get('/api/post/:id', api.post);
-app.post('/api/post', api.addPost);
-app.put('/api/post/:id', api.editPost);
-app.delete('/api/post/:id', api.deletePost);
+app.get('/posts/list', post.list);
+app.get('/posts/show/:id', post.show);
+app.post('/posts/create', post.create);
+app.put('/posts/update/:id', post.update);
+app.delete('/posts/destroy/:id', post.destroy);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

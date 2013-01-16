@@ -1,5 +1,7 @@
 
-// CouchDb configuration and setup
+/**********************************
+    CouchDb configuration and setup
+    **********************************/
 var cradle = require('cradle'),
     config = require('../config/db')['development']; 
 
@@ -9,36 +11,43 @@ var conn = new(cradle.Connection)(config.url, config.port, {
 });
 
 var db = conn.database(config.database);
-db.exists(function (err, exists) {
-  if (err) {
-    console.log('Error try verify if database exists', err);
-  } else if (exists) {
-    console.log('Database already exists');
-  } else {
-    console.log('Database does not exists and will be created');
-    db.create();
-  }
-});
+db.create();
 
-// LIST
-exports.posts = function(req,res){
+
+/**
+  Post Model
+**/
+var Post = exports.Post = function () {
+};
+
+/**
+  List all posts
+**/
+Post.prototype.list = function(req,res){
   var posts = [];
-  db.view('posts/all', function(err , results){
-    results.forEach(function(id,post){
-      posts.push({
-        id:id,
-        title: post.title,
-        text: post.text
+  db.view('posts/all', function(error , results){
+    if(error)
+      res.json(false);
+    else{
+
+      results.forEach(function(id,post){
+        posts.push({
+          id:id,
+          title: post.title,
+          text: post.text
+        });
       });
-    });
-    res.json({
-      posts:posts
-    });
+
+      res.json({ posts:posts });  
+    }
   });
 };
 
-// GET BY ID
-exports.post = function(req,res){
+
+/**
+  Show Post by Id
+**/
+Post.prototype.show = function(req,res){
   var id = req.params.id;
   db.get(id, function(err, doc){
     if(err){
@@ -52,8 +61,10 @@ exports.post = function(req,res){
 };
 
 
-// NEW POST
-exports.addPost = function(req,res){
+/**
+  Create a new Post
+**/
+Post.prototype.create = function(req,res){
   var post = req.body;
   post.resource = 'Post';
   db.save(post, function (err, ret) {
@@ -64,8 +75,10 @@ exports.addPost = function(req,res){
   });
 };
 
-// EDIT POST
-exports.editPost = function(req, res){
+/**
+  Update Post
+**/
+Post.prototype.update = function(req, res){
   var id = req.params.id;
   var post = req.body;
   post.resource = 'Post';
@@ -77,8 +90,10 @@ exports.editPost = function(req, res){
   });
 };
 
-// DELETE POST
-exports.deletePost = function(req, res){
+/**
+  Destroy a Post
+**/
+Post.prototype.destroy = function(req, res){
   var id = req.params.id;
   db.remove(id, function(err,result){
     if(err)

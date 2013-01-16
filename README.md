@@ -1,4 +1,4 @@
-Simple Blog with AngularJS App with an Express + Node.js Backend (Jade template)
+# Simple Blog with AngularJS App with an Express + Node.js Backend (Jade template) + CouchDB
 
 # This project use cradle
   

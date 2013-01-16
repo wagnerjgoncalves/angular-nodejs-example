@@ -5,7 +5,7 @@
   , "dependencies": {
       "express": "3.0.0"
     , "jade": ">= 0.0.1"
-    , "cradle":"latest"
+    , "cradle":"0.5.8"
     , "passport": ">= 0.0.0"
     , "passport-facebook": ">= 0.0.0"
   }

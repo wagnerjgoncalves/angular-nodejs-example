@@ -6,8 +6,8 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
     
     $routeProvider.
       when('/', {
-        templateUrl: 'partials/index',
-        controller: IndexCtrl
+        templateUrl: 'partials/listPost',
+        controller: ListPostCtrl
       }).
       when('/addPost', {
         templateUrl: 'partials/addPost',

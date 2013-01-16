@@ -6,12 +6,15 @@ var express = require('express'),
     routes = require('./routes'),
     api = require('./routes/api');
 
+
 var app = module.exports = express();
 
 // Configuration
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
+  app.use(express.logger());
+  app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
@@ -26,12 +29,14 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-var post = new api.Post();
-
 // Routes
 app.get('/', routes.index);
+
+// Partials routes
 app.get('/partials/:name', routes.partials);
 
+// Post routes
+var post = new api.Post();
 app.get('/posts/list', post.list);
 app.get('/posts/show/:id', post.show);
 app.post('/posts/create', post.create);

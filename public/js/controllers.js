@@ -1,6 +1,6 @@
 'use strict';
 
-function IndexCtrl($scope, $http) {
+function ListPostCtrl($scope, $http) {
   $http.get('/posts/list').
     success(function(data, status, headers, config) {
       $scope.posts = data.posts;

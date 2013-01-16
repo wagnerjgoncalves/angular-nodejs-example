@@ -6,5 +6,7 @@
       "express": "3.0.0"
     , "jade": ">= 0.0.1"
     , "cradle":"latest"
+    , "passport": ">= 0.0.0"
+    , "passport-facebook": ">= 0.0.0"
   }
 }

@@ -1,12 +1,18 @@
 {
     "name": "angular-nodejs-example"
-  , "version": "0.0.1"
+  , "version": "1.0.0"
   , "private": true
+  , "scripts": {
+    "start": "node app"
+    }
   , "dependencies": {
-      "express": "3.0.0"
+      "express": "3.X"
     , "jade": ">= 0.0.1"
     , "cradle":"0.5.8"
     , "passport": ">= 0.0.0"
     , "passport-facebook": ">= 0.0.0"
+  }
+  "engines": {
+    "node": "0.8.x"
   }
 }

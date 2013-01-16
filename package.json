@@ -6,7 +6,7 @@
       "start": "node app"
     }
   , "dependencies": {
-      "express": "3.X"
+      "express": "3.0.0"
     , "jade": ">= 0.0.1"
     , "cradle":"0.5.8"
     , "passport": ">= 0.0.0"

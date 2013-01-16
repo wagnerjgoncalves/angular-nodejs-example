@@ -1,6 +1,6 @@
-# Simple Blog with AngularJS App with an Express + Node.js Backend (Jade template) + CouchDB
+# Simple Blog with AngularJS + Express + Node.js + Jade template + CouchDB
 
-# This project use cradle
+# This project use cradle to connect to couchDB
   
   A high-level, caching, CouchDB client for Node.js
 

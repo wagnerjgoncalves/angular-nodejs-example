@@ -1,17 +1,23 @@
 extends layout
 
 block body
-  div
-    h2 My Blog
-    ul
-      li
-        a(href='/') Home
-      li
-        a(href='/addPost') Add a new post
-        
-    div(ng-view)
+  div(class='container')
+    div(class='hero-unit')
+      h1 My Blog
+      p This a simple blog example using AngularJS + NodeJS + Express + Jade(Template) + CouchDB(cradle)
+      div(class='row')
+        div(class='navbar')
+          ul(class='nav')
+            li
+              a(class='btn', href='/') Home
+            li
+              a(class='btn', href='/addPost') Add a new post
+            
+    div(ng-view class='container')
 
   script(src='js/lib/angular/angular.js')
+  script(src='js/lib/jquery-1.9.0.min.js')
+  script(src='js/lib/bootstrap/js/bootstrap.min.js')
   script(src='js/app.js')
   script(src='js/services.js')
   script(src='js/controllers.js')

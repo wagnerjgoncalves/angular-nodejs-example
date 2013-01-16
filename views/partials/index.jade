@@ -1,9 +1,10 @@
-p There are {{posts.length}} posts
-div(ng-repeat='post in posts')
-  h3 {{post.title}}
-  div {{post.text}}
-  a(href='readPost/{{post.id}}') More
-  |  - 
-  a(href='editPost/{{post.id}}') Edit
-  |  - 
-  a(href='deletePost/{{post.id}}') Delete
+div(class='row')
+  div(class='span12')
+    div(ng-repeat='post in posts')
+      legend
+        h4(class='muted') {{post.title}}
+      p {{post.text}}
+      
+      a(class='btn', href='readPost/{{post.id}}') Show
+      a(class='btn', href='editPost/{{post.id}}') Edit
+      a(class='btn', href='deletePost/{{post.id}}') Delete

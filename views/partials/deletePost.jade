@@ -1,7 +1,8 @@
-h2 {{post.title}}
-div {{post.text}}
-p
-  | Are you sure you want to delete this post?
-  button(ng-click='deletePost()') Yes
-  | -
-  button(ng-click='home()') No thanks
+div
+  legend
+    h4(class='muted') {{post.title}}
+  p {{post.text}}
+  p
+    span(class='text-warning') Are you sure you want to delete this post?
+    button(class='btn btn-mini', ng-click='deletePost()') Yes
+    button(class='btn btn-mini', ng-click='home()') No thanks

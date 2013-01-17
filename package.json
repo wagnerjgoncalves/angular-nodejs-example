@@ -8,8 +8,8 @@
       "express": "3.X",
       "jade": ">= 0.0.1",
       "cradle":"0.5.8",
-      "passport": ">= 0.0.0",
-      "passport-facebook": ">= 0.0.0"
+      "passport": "latest",
+      "passport-facebook": "latest"
   },
   "engines": {
     "node": ">= 0.8.X",

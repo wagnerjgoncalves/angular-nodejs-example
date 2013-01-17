@@ -1,7 +1,13 @@
 extends layout
 
-div(class='row')
-  div(class='navbar')
-    ul(class='nav')
-      li
-        a(class='btn', href='/auth/facebook') Login with facebook
+block body
+  div(class='container')
+    div(class='hero-unit')
+      h1 My Blog
+      p This a simple blog example using AngularJS + NodeJS + Express + Jade(Template) + CouchDB(cradle)
+      div(class='navbar')
+        ul(class='nav')
+          li
+            a(href='/auth/facebook')
+              img(src='img/login-with-facebook.png', width='154' ,height='22')
+  

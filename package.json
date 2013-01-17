@@ -1,18 +1,19 @@
 {
-    "name": "angular-node-blog", 
-    "version": "1.0.0", 
+    "name": "angular-node-blog",
+    "version": "1.0.0",
     "scripts": {
-      "start": "node app"
+        "start": "node app"
     },
     "dependencies": {
-      "express": "3.X",
-      "jade": ">= 0.0.1",
-      "cradle":"0.5.8",
-      "passport": "latest",
-      "passport-facebook": "latest"
-  },
-  "engines": {
-    "node": ">= 0.8.X",
-    "npm": ">= 1.1.X"
-  }
+        "express": "3.X",
+        "jade": ">= 0.0.1",
+        "cradle": "0.5.8",
+        "passport": "latest",
+        "passport-facebook": "latest",
+        "gzippo": "latest"
+    },
+    "engines": {
+        "node": ">= 0.8.X",
+        "npm": ">= 1.1.X"
+    }
 }

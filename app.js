@@ -1,9 +1,10 @@
-var express = require('express'),
+var api = require('./routes/api'),
+    express = require('express'),
     routes = require('./routes'),
-    api = require('./routes/api'),
     passport = require('passport'),
     util = require('util'),
-    FacebookStrategy = require('passport-facebook').Strategy;
+    FacebookStrategy = require('passport-facebook').Strategy,
+    gzippo = require('gzippo');
 
 var FACEBOOK_APP_ID     = "433329796735102",
     FACEBOOK_APP_SECRET = "2445e1119acbdbcab18a6b3ab4b39e99",
@@ -33,17 +34,23 @@ passport.use(new FacebookStrategy({
 var app = module.exports = express();
 
 app.configure(function(){
+  
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express.logger());
+
+  app.use(app.router);
+  app.use(express.logger(':method :url :status'));
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.session({ secret: 'myfirstblogsecret' }));
+  app.use(gzippo.staticGzip(__dirname + '/public'));
+  //app.use(gzippo.compress())
+  app.use(gzippo.staticGzip(__dirname + '/public'));
+  app.use(gzippo.compress())
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(__dirname + '/public'));
-  app.use(app.router);
+  
 });
 
 app.configure('development', function(){
@@ -56,20 +63,18 @@ app.configure('production', function(){
 
 app.get('/', ensureAuthenticated , routes.index);
 
-app.get('/login', function(req, res){
-  res.render('login', { user: req.user });
-});
-
 app.get('/auth/facebook',
-  passport.authenticate('facebook'),
-  function(req, res){
+  passport.authenticate('facebook'), function(req, res){
 
 });
 
 app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
+  passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
     res.redirect('/');
+});
+
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
 });
 
 app.get('/logout', function(req, res){

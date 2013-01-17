@@ -9,8 +9,7 @@
         "jade": ">= 0.0.1",
         "cradle": "0.5.8",
         "passport": "latest",
-        "passport-facebook": "latest",
-        "gzippo": "latest"
+        "passport-facebook": "latest"
     },
     "engines": {
         "node": ">= 0.8.X",

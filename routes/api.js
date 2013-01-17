@@ -13,23 +13,31 @@ var conn = new(cradle.Connection)(config.url, config.port, {
 var db = conn.database(config.database);
 db.create();
 
-var views = { 
+var postView = { 
   "_id":"_design/posts",
-  "_rev":"1",
   "language": "javascript",
   "views": { 
     "all": { 
-      "map": function(doc) { 
-        if(doc.resource === 'Post') 
-          emit( doc._id, doc ); 
-      } 
+      "map": "function(doc) { if(doc.resource === 'Post') emit( doc._id, doc ); }" 
     } 
   }
 };
 
-db.save( views , function (error, response) {
-    console.log("View posts/all created with sucess");
+db.get( "_design/posts" , function(err, doc){
+  if(doc == null || doc ==undefined){
+    db.save( postView , function (error, response) {
+      if(error){
+        console.log("View posts/all created with error");
+        console.log(error);
+      }else{
+        console.log("View posts/all created with sucess");
+        console.log(response);
+      } 
+    });
+  }
+
 });
+
 
 /**
   Post Model
@@ -43,9 +51,11 @@ var Post = exports.Post = function () {
 Post.prototype.list = function(req,res){
   var posts = [];
   db.view('posts/all', function(error , results){
-    if(error)
+    if(error){
+      console.log('Error executing posts/all view');
+      console.log(error);
       res.json(false);
-    else{
+    }else{
 
       results.forEach(function(id,post){
         posts.push({

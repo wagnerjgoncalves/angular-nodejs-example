@@ -13,6 +13,23 @@ var conn = new(cradle.Connection)(config.url, config.port, {
 var db = conn.database(config.database);
 db.create();
 
+var views = { 
+  "_id":"_design/posts",
+  "_rev":"1",
+  "language": "javascript",
+  "views": { 
+    "all": { 
+      "map": function(doc) { 
+        if(doc.resource === 'Post') 
+          emit( doc._id, doc ); 
+      } 
+    } 
+  }
+};
+
+db.save( views , function (error, response) {
+    console.log("View posts/all created with sucess");
+});
 
 /**
   Post Model
